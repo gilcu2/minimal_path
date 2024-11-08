@@ -1,0 +1,3 @@
+class minimal_path {
+
+}
