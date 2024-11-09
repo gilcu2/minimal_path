@@ -10,7 +10,7 @@ import difflicious.scalatest.ScalatestDiff._
 class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
 
   it("must create minimal path of 2 levels") {
-      Given("weights")
+    Given("weights")
     val weights = Array(
       Array(7),
       Array(6, 3),
@@ -20,10 +20,10 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
     And("The expected minimal path")
     val expected = 10
 
-      When("create")
+    When("create")
     val minimalPath = findMinimalPath(graph)
 
-      Then("must be expected")
+    Then("must be expected")
     minimalPath mustBe expected
     }
 
