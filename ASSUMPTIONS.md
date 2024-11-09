@@ -1,5 +1,8 @@
 # Assumptions
 
-- Directed triangular graph by problem description
-- Can be solved moving from top and computing the shortest distance given the distance of the parents.
-    Then the shortest path is the path from the smaller distance leave
+- Directed triangular graph with weighted nodes by problem description
+- Minimal path is sum of weights of its nodes
+- Can be computed moving from top to bottom level. The 
+  minimal path of a level n+1 depends on the minimal path of level n and 
+ the weights of level n. The minimal path of top level is the node weight.  
+  
