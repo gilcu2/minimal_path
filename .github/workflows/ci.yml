@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [ 3.3.5 ]
-        java: [ temurin@21.0.5 ]
+        java: [ openjdk@1.17 ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch
