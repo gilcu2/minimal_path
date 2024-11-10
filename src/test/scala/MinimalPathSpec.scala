@@ -9,62 +9,91 @@ import difflicious.scalatest.ScalatestDiff._
 
 class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
 
-  it("must create minimal path of 2 levels") {
-    Given("weights")
-    val weights = Array(
-      Array(7),
-      Array(6, 3),
-    )
-    val graph = TriangleGraph(LazyList.tabulate(weights.length)(level => Row(weights(level))))
+  describe("findMinimalPath") {
+    it("must create minimal path of 2 levels") {
+      Given("weights")
+      val weights = List(
+        Array(7),
+        Array(6, 3),
+      ).map(Row.apply)
+      val graph = TriangleGraph(weights.iterator)
 
-    And("The expected minimal path")
-    val expected = 10
+      And("The expected minimal path")
+      val expected = MinimalPathNode(10, List(7, 3))
 
-    When("create")
-    val minimalPath = findMinimalPath(graph)
+      When("create")
+      val minimalPath = findMinimalPath(graph)
 
-    Then("must be expected")
-    minimalPath mustBe expected
+      Then("must be expected")
+      minimalPath mustBe expected
     }
 
-  it("must create minimal path of 3 levels") {
-    Given("weights")
-    val weights = Array(
-      Array(7),
-      Array(6, 3),
-      Array(3, 8, 5),
-    )
-    val graph = TriangleGraph(LazyList.tabulate(weights.length)(level => Row(weights(level))))
+    it("must create minimal path of 3 levels") {
+      Given("weights")
+      val weights = List(
+        Array(7),
+        Array(6, 3),
+        Array(3, 8, 5),
+      ).map(Row.apply)
+      val graph = TriangleGraph(weights.iterator)
 
-    And("The expected minimal path")
-    val expected = 15
+      And("The expected minimal path")
+      val expected = MinimalPathNode(15, List(7, 3, 5))
 
-    When("create")
-    val minimalPath = findMinimalPath(graph)
+      When("create")
+      val minimalPath = findMinimalPath(graph)
 
-    Then("must be expected")
-    minimalPath mustBe expected
+      Then("must be expected")
+      minimalPath mustBe expected
+    }
+
+    it("must create minimal path of 4 levels") {
+      Given("weights")
+      val weights = List(
+        Array(7),
+        Array(6, 3),
+        Array(3, 8, 5),
+        Array(11, 2, 10, 9),
+      ).map(Row.apply)
+      val graph = TriangleGraph(weights.iterator)
+
+      And("The expected minimal path")
+      val expected = MinimalPathNode(18, List(7, 6, 3, 2))
+
+
+      When("create")
+      val minimalPath = findMinimalPath(graph)
+
+      Then("must be expected")
+      minimalPath mustBe expected
+    }
   }
 
-  it("must create minimal path of 4 levels") {
-    Given("weights")
-    val weights = Array(
-      Array(7),
-      Array(6, 3),
-      Array(3, 8, 5),
-      Array(11, 2, 10, 9),
-    )
-    val graph = TriangleGraph(LazyList.tabulate(weights.length)(level => Row(weights(level))))
+  describe("createRowsFromLines") {
+    it("create rows") {
+      Given("line iterator")
+      val lines =
+        """
+          |7
+          |6 3
+          |3 8 5
+          |11 2 10 9
+          |""".stripMargin.split("\n").filter(_.nonEmpty).iterator
 
-    And("The expected minimal path")
-    val expected = 18
 
-    When("create")
-    val minimalPath = findMinimalPath(graph)
+      And("the expected result")
+      val expected = List(
+        Row(Array(7)),
+        Row(Array(6, 3)),
+        Row(Array(3, 8, 5)),
+        Row(Array(11, 2, 10, 9)),
+      )
 
-    Then("must be expected")
-    minimalPath mustBe expected
+      When("create")
+      val row_iterator = createRowsFromLines(lines)
+
+      Then("must be expected")
+      row_iterator.toList mustBe expected
+    }
   }
-
-
 }

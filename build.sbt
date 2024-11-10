@@ -7,9 +7,11 @@ val diffV = "0.4.3"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "shortest_path_by_node_weight",
+    name := "minimal_path",
+    assembly / assemblyOutputPath := file("minimal_path.jar"),
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % scalaTestV % Test,
       "com.github.jatcwang" %% "difflicious-scalatest" % diffV % Test,
     )
   )
+
