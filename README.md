@@ -44,8 +44,13 @@ sbt test
 
 ## Running 
 
-sbt assembly
-cat data/data4.txt | java -jar minimal_path.jar
+```shell
+$ sbt assembly
+$ cat data/data4.txt | java -jar minimal_path.jar
+7 + 6 + 3 + 2 = 18
+$
+```
+
 
 
 
