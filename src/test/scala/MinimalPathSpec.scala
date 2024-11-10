@@ -19,7 +19,7 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
       val graph = TriangleGraph(weights.iterator)
 
       And("The expected minimal path")
-      val expected = 10
+      val expected = MinimalPathNode(10, List(7, 3))
 
       When("create")
       val minimalPath = findMinimalPath(graph)
@@ -38,7 +38,7 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
       val graph = TriangleGraph(weights.iterator)
 
       And("The expected minimal path")
-      val expected = 15
+      val expected = MinimalPathNode(15, List(7, 3, 5))
 
       When("create")
       val minimalPath = findMinimalPath(graph)
@@ -58,7 +58,8 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
       val graph = TriangleGraph(weights.iterator)
 
       And("The expected minimal path")
-      val expected = 18
+      val expected = MinimalPathNode(18, List(7, 6, 3, 2))
+
 
       When("create")
       val minimalPath = findMinimalPath(graph)

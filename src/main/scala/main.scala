@@ -5,5 +5,5 @@ import scala.io.Source
   val rows=createRowsFromLines(lines)
   val graph=TriangleGraph(rows)
   val minimal_path=findMinimalPath(graph)
-  println(minimal_path)
+  println(s"""${minimal_path.weightsPath.mkString(" + ")} = ${minimal_path.weight}""")
 
