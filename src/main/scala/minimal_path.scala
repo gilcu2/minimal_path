@@ -40,7 +40,7 @@ def computeNextRow(level: Int, previousRow: MinimalPathRow, graphRow: Row): Mini
       case (_, 0) =>
         makeNode(0, 0)
       case _ if column == level =>
-        makeNode(column - 1, column)        
+        makeNode(column - 1, column)
       case _ =>
         val previousNode = if previousRow.nodes(column - 1).weight <= previousRow.nodes(column).weight then
           column - 1
