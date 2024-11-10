@@ -3,7 +3,6 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.must.Matchers.*
 
 class RowSpec extends AnyFunSpec with GivenWhenThen {
-
   it("create empty Row") {
     When("create Row")
     val r = Row()
@@ -24,5 +23,4 @@ class RowSpec extends AnyFunSpec with GivenWhenThen {
     Then("it is the expected")
     r mustBe false
   }
-
 }

@@ -3,7 +3,6 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.must.Matchers.*
 
 class MainSpec extends AnyFunSpec with GivenWhenThen {
-
   it("compute the minimal path from text lines") {
     Given("graph")
     val lines =
@@ -23,5 +22,4 @@ class MainSpec extends AnyFunSpec with GivenWhenThen {
     Then("it is the expected")
     r mustBe expected
   }
-
 }
