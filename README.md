@@ -1,6 +1,6 @@
 # Minimal path
 
-Given triangular graph like:
+Given a triangular graph like:
 
 ```mermaid
 flowchart TD
