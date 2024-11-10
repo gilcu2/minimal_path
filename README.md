@@ -28,8 +28,9 @@ represented in a text file like
 ```
 
 The program must compute a path with minimum sum of node weights from 
-root to lives. Input are text lines from standard input
-Expected output:
+the root to the leafs. The program input are text lines from standard input.
+
+With previous graph the output must be:
 
 7 + 6 + 3 + 2 = 18
 
