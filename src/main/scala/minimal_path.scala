@@ -1,8 +1,14 @@
 import scala.math.min
 
-case class Row(weights: Array[Int] = Array.emptyIntArray)
+case class Row(weights: Array[Int] = Array.emptyIntArray) {
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Row => that.weights.toList == weights.toList
+      case _ => false
+    }
+}
 
-case class TriangleGraph(rows: LazyList[Row])
+case class TriangleGraph(rows: Iterator[Row])
 
 def computeNextRow(level: Int, previousRow: Row, graphRow: Row): Row = {
   val weightsNextRow = for column <- 0 to level
@@ -22,3 +28,9 @@ def findMinimalPath(graph: TriangleGraph): Int =
     (level + 1, computeNextRow(level, previousRow, weights))
   }
   lastRow.weights.min
+
+def createRowsFromLines(lines:Iterator[String]): Iterator[Row] =
+  lines.map(_.split(" ")).map(a=>Row(a.map(x=>x.toInt)))
+
+
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="sbt 1" modules="shortest_path_by_node_weight" />
+    <profile name="sbt 1" modules="minimal_path,shortest_path_by_node_weight" />
   </component>
 </project>
