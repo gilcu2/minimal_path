@@ -5,6 +5,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks.forAll
 import org.scalatest.prop.Tables.Table
 import difflicious._
 import difflicious.scalatest.ScalatestDiff._
+import scala.util._
 
 
 class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
@@ -15,14 +16,14 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
       val weights = List(
         Array(7),
         Array(6, 3),
-      ).map(Row.apply)
-      val graph = TriangleGraph(weights.iterator)
+      ).map(a=>Success(Row(a))).iterator
+      val graph = TriangleGraph(weights)
 
       And("The expected minimal path")
       val expected = MinimalPathNode(10, List(7, 3))
 
       When("create")
-      val minimalPath = findMinimalPath(graph)
+      val minimalPath = findMinimalPath(graph).get
 
       Then("must be expected")
       minimalPath mustBe expected
@@ -34,14 +35,14 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
         Array(7),
         Array(6, 3),
         Array(3, 8, 5),
-      ).map(Row.apply)
-      val graph = TriangleGraph(weights.iterator)
+      ).map(a=>Success(Row(a))).iterator
+      val graph = TriangleGraph(weights)
 
       And("The expected minimal path")
       val expected = MinimalPathNode(15, List(7, 3, 5))
 
       When("create")
-      val minimalPath = findMinimalPath(graph)
+      val minimalPath = findMinimalPath(graph).get
 
       Then("must be expected")
       minimalPath mustBe expected
@@ -54,46 +55,18 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
         Array(6, 3),
         Array(3, 8, 5),
         Array(11, 2, 10, 9),
-      ).map(Row.apply)
-      val graph = TriangleGraph(weights.iterator)
+      ).map(a=>Success(Row(a))).iterator
+      val graph = TriangleGraph(weights)
 
       And("The expected minimal path")
       val expected = MinimalPathNode(18, List(7, 6, 3, 2))
 
 
       When("create")
-      val minimalPath = findMinimalPath(graph)
+      val minimalPath = findMinimalPath(graph).get
 
       Then("must be expected")
       minimalPath mustBe expected
     }
-  }
-
-  describe("createRowsFromLines") {
-    it("create rows") {
-      Given("line iterator")
-      val lines =
-        """
-          |7
-          |6 3
-          |3 8 5
-          |11 2 10 9
-          |""".stripMargin.split("\n").filter(_.nonEmpty).iterator
-
-
-      And("the expected result")
-      val expected = List(
-        Row(Array(7)),
-        Row(Array(6, 3)),
-        Row(Array(3, 8, 5)),
-        Row(Array(11, 2, 10, 9)),
-      )
-
-      When("create")
-      val row_iterator = createRowsFromLines(lines)
-
-      Then("must be expected")
-      row_iterator.toList mustBe expected
-    }
-  }
+  }  
 }
