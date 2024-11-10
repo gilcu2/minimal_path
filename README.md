@@ -18,7 +18,7 @@ flowchart TD
     6 --> 10[9]
 ```
 
-represented in a text like
+represented in a text file like
 
 ```text
 7
