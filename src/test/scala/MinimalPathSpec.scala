@@ -16,7 +16,7 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
       val weights = List(
         Array(7),
         Array(6, 3),
-      ).map(a=>Success(Row(a))).iterator
+      ).map(a=>Row(a)).iterator
       val graph = TriangleGraph(weights)
 
       And("The expected minimal path")
@@ -35,7 +35,7 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
         Array(7),
         Array(6, 3),
         Array(3, 8, 5),
-      ).map(a=>Success(Row(a))).iterator
+      ).map(a=>Row(a)).iterator
       val graph = TriangleGraph(weights)
 
       And("The expected minimal path")
@@ -55,7 +55,7 @@ class MinimalPathSpec extends AnyFunSpec with GivenWhenThen {
         Array(6, 3),
         Array(3, 8, 5),
         Array(11, 2, 10, 9),
-      ).map(a=>Success(Row(a))).iterator
+      ).map(a=>Row(a)).iterator
       val graph = TriangleGraph(weights)
 
       And("The expected minimal path")

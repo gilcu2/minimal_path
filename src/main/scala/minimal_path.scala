@@ -12,21 +12,26 @@ def splitLine(line: String, lineIndex: Int): Try[(Array[String], Int)] =
   val divided = line.split(" ")
   if divided.length == lineIndex + 1 then
     Success((divided, lineIndex))
-  else
-    Failure(Exception(s"Line $lineIndex doesn't have the expected number of elements"))
+  else    
+    Failure(Exception(s"Line $lineIndex number of elements ${divided.length} different than expected ${lineIndex + 1}"))
 
-def toRow(divided: Array[String], lineIndex: Int): Try[Row] =
+def toRow(divided: Array[String], lineIndex: Int): Row =
   val tryValues = Try(divided.map(_.toInt))
-  tryValues.map(Row.apply)
+  tryValues match
+    case Success(ints) => Row(ints)
+    case Failure(exception) => 
+      throw Exception(s"Problem reading line $lineIndex: $exception")
 
 
-def createRowsFromLines(lines: Iterator[String]): Iterator[Try[Row]] =
+def createRowsFromLines(lines: Iterator[String]): Iterator[Row] =
   lines
     .zipWithIndex
     .map(splitLine)
     .map {
-      case Success((divided, lineIndex)) => toRow(divided, lineIndex)
-      case Failure(exception) => Failure(exception)
+      case Success((divided, lineIndex)) =>
+        toRow(divided, lineIndex)
+      case Failure(exception) =>
+        throw exception
     }
 
 
@@ -34,12 +39,12 @@ case class MinimalPathNode(weight: Int, weightsPath: List[Int])
 
 case class MinimalPathRow(nodes: Array[MinimalPathNode] = Array.empty[MinimalPathNode])
 
-case class TriangleGraph(rows: Iterator[Try[Row]])
+case class TriangleGraph(rows: Iterator[Row])
 
 def findMinimalPath(graph: TriangleGraph): Try[MinimalPathNode] = {
   val tryResult = Try(graph.rows.foldLeft((0, MinimalPathRow())) {
     case ((level, previousRow), weights) =>
-      (level + 1, computeNextRow(level, previousRow, weights.get))
+      (level + 1, computeNextRow(level, previousRow, weights))
   })
   tryResult.map(result => {
     val minNode = result._2
