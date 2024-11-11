@@ -1,4 +1,4 @@
-import scala.math.min
+import scala.util._
 
 case class Row(weights: Array[Int] = Array.emptyIntArray) {
   override def equals(that: Any): Boolean =
@@ -8,8 +8,31 @@ case class Row(weights: Array[Int] = Array.emptyIntArray) {
     }
 }
 
+def splitLine(line: String, lineIndex: Int): Try[(Array[String], Int)] =
+  val divided = line.split(" ")
+  if divided.length == lineIndex + 1 then
+    Success((divided, lineIndex))
+  else    
+    Failure(Exception(s"Line $lineIndex number of elements ${divided.length} different than expected ${lineIndex + 1}"))
+
+def toRow(divided: Array[String], lineIndex: Int): Row =
+  val tryValues = Try(divided.map(_.toInt))
+  tryValues match
+    case Success(ints) => Row(ints)
+    case Failure(exception) => 
+      throw Exception(s"Problem reading line $lineIndex: $exception")
+
+
 def createRowsFromLines(lines: Iterator[String]): Iterator[Row] =
-  lines.map(_.split(" ")).map(a => Row(a.map(x => x.toInt)))
+  lines
+    .zipWithIndex
+    .map(splitLine)
+    .map {
+      case Success((divided, lineIndex)) =>
+        toRow(divided, lineIndex)
+      case Failure(exception) =>
+        throw exception
+    }
 
 
 case class MinimalPathNode(weight: Int, weightsPath: List[Int])
@@ -18,12 +41,17 @@ case class MinimalPathRow(nodes: Array[MinimalPathNode] = Array.empty[MinimalPat
 
 case class TriangleGraph(rows: Iterator[Row])
 
-def findMinimalPath(graph: TriangleGraph): MinimalPathNode = {
-  val (_, lastRow) = graph.rows.foldLeft((0, MinimalPathRow())) { case ((level, previousRow), weights) =>
-    (level + 1, computeNextRow(level, previousRow, weights))
-  }
-  val minNode = lastRow.nodes.minBy(_.weight)
-  minNode.copy(weightsPath = minNode.weightsPath.reverse)
+def findMinimalPath(graph: TriangleGraph): Try[MinimalPathNode] = {
+  val tryResult = Try(graph.rows.foldLeft((0, MinimalPathRow())) {
+    case ((level, previousRow), weights) =>
+      (level + 1, computeNextRow(level, previousRow, weights))
+  })
+  tryResult.map(result => {
+    val minNode = result._2
+      .nodes
+      .minBy(_.weight)
+    minNode.copy(weightsPath = minNode.weightsPath.reverse)
+  })
 }
 
 def computeNextRow(level: Int, previousRow: MinimalPathRow, graphRow: Row): MinimalPathRow = {

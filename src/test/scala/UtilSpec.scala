@@ -12,5 +12,5 @@ class UtilSpec extends AnyFunSpec with GivenWhenThen {
     
     Then("it is expected")
     lines.length mustBe 4
-  }  
+  }
 }
