@@ -13,4 +13,16 @@ class UtilSpec extends AnyFunSpec with GivenWhenThen {
     Then("it is expected")
     lines.length mustBe 4
   }  
+  
+  it("transform to Int until error") {
+    Given("string iterator")
+    val strings=List("1","2","q","4").iterator
+    
+    When("transform")
+    val tryInts=toInt(strings).toList
+    
+    Then("is expected")
+    tryInts.length mustBe 3
+    
+  }
 }
